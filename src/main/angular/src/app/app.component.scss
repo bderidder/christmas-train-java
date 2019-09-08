@@ -3,7 +3,15 @@ div.control-page
   max-width: 400px;
   max-height: 800px;
   margin: auto;
-  border: solid 1px red;
+}
+
+div.centered-flex-container
+{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
 div.control-elements-container
@@ -11,11 +19,11 @@ div.control-elements-container
   display: flex;
   flex-direction: row;
   align-items: center;
+  width: 100%;
 }
 
 div.control-element
 {
-
 }
 
 .control-element-clickable

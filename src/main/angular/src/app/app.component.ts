@@ -42,9 +42,12 @@ export class AppComponent implements OnInit
 
   onSliderChange(event: MatSliderChange)
   {
-    this.speed = event.value;
-
     this.updateTrainController();
+  }
+
+  onSliderInput(event: MatSliderChange)
+  {
+    this.sliderSpeed = event.value;
   }
 
   onBrakeChange(event: MatSlideToggleChange)

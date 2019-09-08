@@ -1,53 +1,59 @@
 <div class="control-page">
 
 <mat-card>
-  <mat-card-header>
-    <mat-card-title>Train Control</mat-card-title>
-  </mat-card-header>
   <mat-card-content>
 
-    <div class="control-elements-container">
+    <div class="centered-flex-container">
+      <h1>Train Controller</h1>
+    </div>
+
+    <div class="centered-flex-container">
+      <span style="font-size: 8em;"
+            [ngClass]="{
+          'control-element-enabled': !brake,
+          'control-element-disabled': brake
+        }">{{ sliderSpeed }}</span>
+    </div>
+
+    <div style="width: 100%">
+      <mat-slider min="0" max="100" tickInterval="1" step="1" value="0"
+                  style="width: 100%"
+                  [(ngModel)]="speed"
+                  (change)="onSliderChange($event)"
+                  (input)="onSliderInput($event)"></mat-slider>
+    </div>
+
+    <div class="control-elements-container" style="margin-top: 60px;">
       <div class="control-element control-element-clickable"
            [ngClass]="{
                     'control-element-enabled': !forward,
                     'control-element-disabled': forward
                   }"
           (click)="onReverseClicked()">
-        <mat-icon aria-hidden="false" aria-label="Reverse">arrow_back</mat-icon>
+        <mat-icon aria-hidden="false" aria-label="Reverse">arrow_back</mat-icon><br/>Reverse
       </div>
-      <div class="control-element">
-        <mat-slider min="0" max="100" tickInterval="1" step="1" value="0"
-                    [(ngModel)]="sliderSpeed"
-                    (input)="onSliderChange($event)"></mat-slider>
+      <div class="control-element" style="flex-grow: 1;">
+        <div class="centered-flex-container">
+          <mat-slide-toggle
+            class="example-margin"
+            color="warn"
+            [checked]="brake"
+            [(ngModel)]="brake"
+            (change)="onBrakeChange($event)">
+            Brake
+          </mat-slide-toggle>
+        </div>
       </div>
       <div class="control-element control-element-clickable"
+           style="text-align: right;"
            [ngClass]="{
                     'control-element-enabled': forward,
                     'control-element-disabled': !forward
                   }"
            (click)="onForwardClicked()">
-        <mat-icon aria-hidden="false" aria-label="Reverse">arrow_forward</mat-icon>
+        <mat-icon aria-hidden="false" aria-label="Reverse">arrow_forward</mat-icon><br/>Forward
       </div>
     </div>
-
-    <div>
-      <span style="font-size: 8em;"
-        [ngClass]="{
-          'control-element-enabled': !brake,
-          'control-element-disabled': brake
-        }">{{ speed }}</span>
-    </div>
-
-    <br/>
-
-    <mat-slide-toggle
-      class="example-margin"
-      color="warn"
-      [checked]="brake"
-      [(ngModel)]="brake"
-      (change)="onBrakeChange($event)">
-      Brake
-    </mat-slide-toggle>
 
   </mat-card-content>
 </mat-card>
