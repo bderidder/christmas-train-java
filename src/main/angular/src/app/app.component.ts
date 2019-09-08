@@ -6,6 +6,7 @@ import {catchError} from "rxjs/operators";
 import {TrainControllerRequest} from "../models/train.controller.request";
 import {throwError} from "rxjs";
 import {TrainControllerStatus} from "../models/train.controller.status";
+import {BackendStatus} from "../models/backend.status";
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,15 @@ export class AppComponent implements OnInit
   sliderSpeed = 0;
   speed = 0;
 
-  constructor(private http: HttpClient) { }
+  backendStatus: BackendStatus;
+
+  constructor(private http: HttpClient)
+  {
+    this.backendStatus = new BackendStatus();
+
+    this.backendStatus.error = false;
+    this.backendStatus.message = "status is not known";
+  }
 
   ngOnInit()
   {
@@ -67,9 +76,12 @@ export class AppComponent implements OnInit
 
   initTrainController()
   {
+    this.backendStatus.error = false;
+    this.backendStatus.message = "sending changes to train";
+
     this.http.get<TrainControllerStatus>('/api/train/control')
       .pipe(
-        catchError(this.handleCallBackendError)
+        catchError(error => this.handleCallBackendError(error))
       )
       .subscribe(status => this.updateLocalStateFromServerStatus(status));
   }
@@ -82,17 +94,18 @@ export class AppComponent implements OnInit
     trainControllerRequest.direction = direction;
     trainControllerRequest.brake = brake;
 
-    console.log("Updating backend");
-
     this.http.post<TrainControllerStatus>('/api/train/control', trainControllerRequest)
       .pipe(
-        catchError(this.handleCallBackendError)
+        catchError(error => this.handleCallBackendError(error))
       )
       .subscribe(status => this.updateLocalStateFromServerStatus(status));
   }
 
   updateLocalStateFromServerStatus(trainControllerStatus: TrainControllerStatus)
   {
+    this.backendStatus.error = false;
+    this.backendStatus.message = "";
+
     this.speed = trainControllerStatus.speed;
     this.sliderSpeed = this.speed;
     this.forward = trainControllerStatus.direction;
@@ -101,6 +114,9 @@ export class AppComponent implements OnInit
 
   handleCallBackendError(error: HttpErrorResponse)
   {
+    this.backendStatus.error = true;
+    this.backendStatus.message = "could not talk to backend";
+
     if (error.error instanceof ErrorEvent)
     {
       console.error('An error occurred:', error.error.message);

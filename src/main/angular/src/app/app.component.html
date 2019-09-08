@@ -1,8 +1,5 @@
 <div class="control-page">
 
-<mat-card>
-  <mat-card-content>
-
     <div class="centered-flex-container">
       <h1>Train Controller</h1>
     </div>
@@ -55,6 +52,11 @@
       </div>
     </div>
 
-  </mat-card-content>
-</mat-card>
+    <div class="centered-flex-container" style="margin-top: 30px;">
+      <span [ngClass]="{
+                    'text-error': backendStatus.error,
+                    'text-success': !backendStatus.error
+                  }">{{ backendStatus.message }}</span>
+    </div>
+
 </div>
