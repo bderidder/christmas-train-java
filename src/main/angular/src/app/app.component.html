@@ -1,0 +1,54 @@
+<div class="control-page">
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Train Control</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+
+    <div class="control-elements-container">
+      <div class="control-element control-element-clickable"
+           [ngClass]="{
+                    'control-element-enabled': !forward,
+                    'control-element-disabled': forward
+                  }"
+          (click)="onReverseClicked()">
+        <mat-icon aria-hidden="false" aria-label="Reverse">arrow_back</mat-icon>
+      </div>
+      <div class="control-element">
+        <mat-slider min="0" max="100" tickInterval="1" step="1" value="0"
+                    [(ngModel)]="sliderSpeed"
+                    (input)="onSliderChange($event)"></mat-slider>
+      </div>
+      <div class="control-element control-element-clickable"
+           [ngClass]="{
+                    'control-element-enabled': forward,
+                    'control-element-disabled': !forward
+                  }"
+           (click)="onForwardClicked()">
+        <mat-icon aria-hidden="false" aria-label="Reverse">arrow_forward</mat-icon>
+      </div>
+    </div>
+
+    <div>
+      <span style="font-size: 8em;"
+        [ngClass]="{
+          'control-element-enabled': !brake,
+          'control-element-disabled': brake
+        }">{{ speed }}</span>
+    </div>
+
+    <br/>
+
+    <mat-slide-toggle
+      class="example-margin"
+      color="warn"
+      [checked]="brake"
+      [(ngModel)]="brake"
+      (change)="onBrakeChange($event)">
+      Brake
+    </mat-slide-toggle>
+
+  </mat-card-content>
+</mat-card>
+</div>

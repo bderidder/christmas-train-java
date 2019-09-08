@@ -1,0 +1,34 @@
+div.control-page
+{
+  max-width: 400px;
+  max-height: 800px;
+  margin: auto;
+  border: solid 1px red;
+}
+
+div.control-elements-container
+{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+div.control-element
+{
+
+}
+
+.control-element-clickable
+{
+  cursor: pointer;
+}
+
+.control-element-enabled
+{
+  color: green;
+}
+
+.control-element-disabled
+{
+  color: red;
+}
