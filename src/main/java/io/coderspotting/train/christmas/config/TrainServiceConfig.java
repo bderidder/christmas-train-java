@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class TrainServiceConfig
 {
-    final Logger logger = LoggerFactory.getLogger(TrainServiceConfig.class);
+    private final Logger logger = LoggerFactory.getLogger(TrainServiceConfig.class);
 
     @Bean
     public TrainService createTrainService()
