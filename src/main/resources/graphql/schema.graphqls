@@ -1,0 +1,7 @@
+# The Root Query for the application
+type Query
+{
+    sayHello(name: String): String!
+
+    repeat(keyword: String): String!
+}
