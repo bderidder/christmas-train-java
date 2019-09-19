@@ -1,8 +1,6 @@
 package io.coderspotting.train.christmas.config;
 
-import io.coderspotting.train.christmas.services.TrainService;
-import io.coderspotting.train.christmas.services.TrainServiceGpio;
-import io.coderspotting.train.christmas.services.TrainServiceMock;
+import io.coderspotting.train.christmas.services.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,11 +12,16 @@ public class TrainServiceConfig
     {
         try
         {
-            return new TrainServiceGpio();
+            return new TrainServiceFirmata(12, 10);
         }
         catch(UnsatisfiedLinkError e)
         {
             return new TrainServiceMock();
+        }
+        catch (TrainServiceException e)
+        {
+            e.printStackTrace();
+            return null;
         }
     }
 }

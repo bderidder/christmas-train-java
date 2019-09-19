@@ -1,17 +1,18 @@
 package io.coderspotting.train.christmas.services;
 
-// TrainServiceGpio
-
 public interface TrainService
 {
-    public void applyBrake();
-    public void releaseBrake();
-    public boolean isBrakeApplied();
+    public void applyBrake() throws TrainServiceException;
+    public void releaseBrake() throws TrainServiceException;
+    public boolean isBrakeApplied() throws TrainServiceException;
 
-    public void setSpeed(int newSpeed);
-    public int getSpeed();
+    /*
+        Speed is expressed in % (0 - 100) of maximum speed
+     */
+    public void setSpeed(int newSpeed) throws TrainServiceException;
+    public int getSpeed() throws TrainServiceException;
 
-    public void moveForward();
-    public void moveReverse();
-    public boolean isMovingForward();
+    public void moveForward() throws TrainServiceException;
+    public void moveReverse() throws TrainServiceException;
+    public boolean isMovingForward() throws TrainServiceException;
 }

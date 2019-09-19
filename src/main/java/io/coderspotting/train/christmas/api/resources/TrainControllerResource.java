@@ -2,6 +2,7 @@ package io.coderspotting.train.christmas.api.resources;
 
 import io.coderspotting.train.christmas.api.models.TrainControllerRequest;
 import io.coderspotting.train.christmas.api.models.TrainControllerStatus;
+import io.coderspotting.train.christmas.services.TrainServiceException;
 import org.springframework.web.bind.annotation.*;
 
 import io.coderspotting.train.christmas.services.TrainService;
@@ -18,13 +19,13 @@ public class TrainControllerResource
     }
 
     @GetMapping
-    public TrainControllerStatus get()
+    public TrainControllerStatus get() throws TrainServiceException
     {
         return createTrainControllerStatus();
     }
 
     @PostMapping
-    public TrainControllerStatus post(@RequestBody TrainControllerRequest controlRequest)
+    public TrainControllerStatus post(@RequestBody TrainControllerRequest controlRequest) throws TrainServiceException
     {
         if (controlRequest.brake != null)
             if (controlRequest.brake)
@@ -44,7 +45,7 @@ public class TrainControllerResource
         return createTrainControllerStatus();
     }
 
-    private TrainControllerStatus createTrainControllerStatus()
+    private TrainControllerStatus createTrainControllerStatus() throws TrainServiceException
     {
         var response = new TrainControllerStatus();
 
