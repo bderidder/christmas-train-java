@@ -42,16 +42,12 @@ public class TrainControllerMutationResolver implements GraphQLMutationResolver
         return getControllerStatus();
     }
 
-    public ControllerStatus applyBrake() throws TrainServiceException
+    public ControllerStatus setBrake(boolean brakeApplied) throws TrainServiceException
     {
-        trainService.applyBrake();
-
-        return getControllerStatus();
-    }
-
-    public ControllerStatus releaseBrake() throws TrainServiceException
-    {
-        trainService.releaseBrake();
+        if (brakeApplied)
+            trainService.applyBrake();
+        else
+            trainService.releaseBrake();
 
         return getControllerStatus();
     }

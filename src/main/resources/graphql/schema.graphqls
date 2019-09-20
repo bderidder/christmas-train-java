@@ -56,6 +56,5 @@ type Mutation
     # sets the new speed of the train, must be a value between 0 and 100
     setSpeed(speed: Int!) : ControllerStatus!
     setDirection(direction: TrainDirection!) : ControllerStatus!
-    applyBrake : ControllerStatus!
-    releaseBrake : ControllerStatus!
+    setBrake(brakeApplied: Boolean!) : ControllerStatus!
 }

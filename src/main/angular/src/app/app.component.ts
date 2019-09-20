@@ -1,12 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {MatSliderChange} from "@angular/material/slider";
 import {MatSlideToggleChange} from "@angular/material/slide-toggle";
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {catchError} from "rxjs/operators";
-import {TrainControllerRequest} from "../models/train.controller.request";
+import {HttpErrorResponse} from "@angular/common/http";
 import {throwError} from "rxjs";
-import {TrainControllerStatus} from "../models/train.controller.status";
 import {BackendStatus} from "../models/backend.status";
+import {ControllerStatus, TrainDirection, TrainService} from "../services/train.service";
 
 @Component({
   selector: 'app-root',
@@ -22,7 +20,7 @@ export class AppComponent implements OnInit
 
   backendStatus: BackendStatus;
 
-  constructor(private http: HttpClient)
+  constructor(private trainService: TrainService)
   {
     this.backendStatus = new BackendStatus();
 
@@ -39,19 +37,19 @@ export class AppComponent implements OnInit
   {
     this.forward = false;
 
-    this.updateTrainController();
+    this.handleControllerStatusPromise(this.trainService.setDirection(TrainDirection.REVERSE));
   }
 
   onForwardClicked()
   {
     this.forward = true;
 
-    this.updateTrainController();
+    this.handleControllerStatusPromise(this.trainService.setDirection(TrainDirection.FORWARD));
   }
 
   onSliderChange(event: MatSliderChange)
   {
-    this.updateTrainController();
+    this.handleControllerStatusPromise(this.trainService.setSpeed(this.sliderSpeed));
   }
 
   onSliderInput(event: MatSliderChange)
@@ -63,15 +61,7 @@ export class AppComponent implements OnInit
   {
     this.brake = event.checked;
 
-    this.updateTrainController();
-  }
-
-  updateTrainController()
-  {
-    this.updateBackendTrainController(
-      this.speed,
-      this.forward,
-      this.brake);
+    this.handleControllerStatusPromise(this.trainService.setBrake(this.brake));
   }
 
   initTrainController()
@@ -79,37 +69,26 @@ export class AppComponent implements OnInit
     this.backendStatus.error = false;
     this.backendStatus.message = "sending changes to train";
 
-    this.http.get<TrainControllerStatus>('/api/train/control')
-      .pipe(
-        catchError(error => this.handleCallBackendError(error))
-      )
-      .subscribe(status => this.updateLocalStateFromServerStatus(status));
+    this.handleControllerStatusPromise(this.trainService.getControllerStatus());
   }
 
-  updateBackendTrainController(speed, direction, brake)
+  handleControllerStatusPromise(promise: Promise<ControllerStatus>)
   {
-    let trainControllerRequest = new TrainControllerRequest();
-
-    trainControllerRequest.speed = speed;
-    trainControllerRequest.direction = direction;
-    trainControllerRequest.brake = brake;
-
-    this.http.post<TrainControllerStatus>('/api/train/control', trainControllerRequest)
-      .pipe(
-        catchError(error => this.handleCallBackendError(error))
-      )
-      .subscribe(status => this.updateLocalStateFromServerStatus(status));
+    promise.then(
+      controllerStatus => this.updateLocalStateFromServerStatus(controllerStatus),
+      error => this.handleCallBackendError(error)
+    );
   }
 
-  updateLocalStateFromServerStatus(trainControllerStatus: TrainControllerStatus)
+  updateLocalStateFromServerStatus(controllerStatus: ControllerStatus)
   {
     this.backendStatus.error = false;
     this.backendStatus.message = "";
 
-    this.speed = trainControllerStatus.speed;
+    this.speed = controllerStatus.speed;
     this.sliderSpeed = this.speed;
-    this.forward = trainControllerStatus.direction;
-    this.brake = trainControllerStatus.brake;
+    this.forward = controllerStatus.direction == TrainDirection.FORWARD;
+    this.brake = controllerStatus.brake;
   }
 
   handleCallBackendError(error: HttpErrorResponse)
