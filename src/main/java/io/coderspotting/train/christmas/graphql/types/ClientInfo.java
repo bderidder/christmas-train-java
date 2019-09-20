@@ -1,4 +1,4 @@
-package io.coderspotting.train.christmas.api.graphql.types;
+package io.coderspotting.train.christmas.graphql.types;
 
 public class ClientInfo
 {

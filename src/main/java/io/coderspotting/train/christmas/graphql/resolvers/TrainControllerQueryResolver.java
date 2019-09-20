@@ -1,8 +1,8 @@
-package io.coderspotting.train.christmas.api.graphql.resolvers;
+package io.coderspotting.train.christmas.graphql.resolvers;
 
 import com.coxautodev.graphql.tools.GraphQLQueryResolver;
-import io.coderspotting.train.christmas.api.graphql.types.ControllerStatus;
-import io.coderspotting.train.christmas.api.graphql.types.TrainDirection;
+import io.coderspotting.train.christmas.graphql.types.ControllerStatus;
+import io.coderspotting.train.christmas.graphql.types.TrainDirection;
 import io.coderspotting.train.christmas.services.TrainService;
 import io.coderspotting.train.christmas.services.TrainServiceException;
 import org.springframework.stereotype.Component;
