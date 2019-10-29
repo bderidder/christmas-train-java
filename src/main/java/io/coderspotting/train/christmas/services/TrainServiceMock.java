@@ -46,12 +46,14 @@ public class TrainServiceMock implements TrainService
     @Override
     public void moveForward() 
     {
+        setSpeed(0);
         direction = true;
     }
 
     @Override
     public void moveReverse() 
     {
+        setSpeed(0);
         direction = false;
     }
 
@@ -60,4 +62,5 @@ public class TrainServiceMock implements TrainService
     {
         return direction;
     }
+
 }
