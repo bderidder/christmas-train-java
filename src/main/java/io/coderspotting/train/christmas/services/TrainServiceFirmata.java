@@ -135,8 +135,11 @@ public class TrainServiceFirmata implements TrainService
     {
         try
         {
-            setSpeed(0);
-            directionPin.setValue(1);
+            if (directionPin.getValue() != 1)
+            {
+                setSpeed(0);
+                directionPin.setValue(1);
+            }
         }
         catch (IOException e)
         {
@@ -149,8 +152,11 @@ public class TrainServiceFirmata implements TrainService
     {
         try
         {
-            setSpeed(0);
-            directionPin.setValue(0);
+            if (directionPin.getValue() == 1)
+            {
+                setSpeed(0);
+                directionPin.setValue(0);
+            }
         }
         catch (IOException e)
         {
