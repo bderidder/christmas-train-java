@@ -20,7 +20,7 @@ public class TrainServiceConfig
         }
         catch(Exception e)
         {
-            logger.debug("Could not load TrainService implementation", e);
+            logger.warn("Could not load TrainService implementation", e);
             logger.warn("Could not load TrainService implementation, reverting to mock implementation");
 
             return new TrainServiceMock();
