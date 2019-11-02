@@ -11,44 +11,9 @@ type ControllerStatus
     speed: Int
 }
 
-type ClientInfo
-{
-    id: Int
-    master: Boolean
-    admin: Boolean
-}
-
-# The Root Query for the application
 type Query
 {
-    # Simple methods to control the train
-    #
-    # mutation - setSpeed(int) : ControllerStatus
-    # mutation - setDirection(enum) : ControllerStatus
-    # mutation - applyBrake() : ControllerStatus
-    # query - getControllerStatus() : ControllerStatus
-    #   ! subscriptions for this query
-    #
-    #
-    # Methods to share controller with other clients
-    #
-    # mutation - makeClientMaster(int: clientId) : ClientStatus
-    # query - getClientStatus() : ClientStatus
-    #   ! subscriptions for this query
-    #
-    #
-    # Methods to manage simultaneously connected clients
-    #
-    # query - getClients() : [ClientStatus]
-    #   ! subscriptions for this query
-    # mutation - makeClientAdmin(int: clientId)
-    # mutation - takeAdmin(string: secret)
-
     getControllerStatus : ControllerStatus!
-
-    #getClientStatus : ClientInfo!
-
-    #getClients: [ClientInfo!]!
 }
 
 type Mutation
