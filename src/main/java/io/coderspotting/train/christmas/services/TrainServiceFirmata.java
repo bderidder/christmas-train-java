@@ -36,7 +36,7 @@ public class TrainServiceFirmata implements TrainService
 
     private void initFirmata() throws TrainServiceException
     {
-        device = new FirmataDevice("/dev/ttyAMA0");
+        device = new FirmataDevice("/dev/ttyACM0");
 
         try
         {
