@@ -45,14 +45,15 @@ public class TrainServiceFirmata implements TrainService
 
             speedPin = device.getPin(3);
             speedPin.setMode(Pin.Mode.PWM);
-            setSpeed(0);
 
             directionPin = device.getPin(12);
             directionPin.setMode(Pin.Mode.OUTPUT);
-            moveForward();
 
             brakePin = device.getPin(9);
             brakePin.setMode(Pin.Mode.OUTPUT);
+
+            setSpeed(0);
+            moveForward();
             applyBrake();
         }
         catch (Exception e)
