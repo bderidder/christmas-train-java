@@ -33,6 +33,20 @@ export class AppComponent implements OnInit
     this.initTrainController();
   }
 
+  onStopClicked()
+  {
+    this.brake = true;
+
+    this.handleControllerStatusPromise(this.trainService.setBrake(this.brake));
+  }
+
+  onGoClicked()
+  {
+    this.brake = false;
+
+    this.handleControllerStatusPromise(this.trainService.setBrake(this.brake));
+  }
+
   onReverseClicked()
   {
     this.forward = false;
@@ -45,6 +59,12 @@ export class AppComponent implements OnInit
     this.forward = true;
 
     this.handleControllerStatusPromise(this.trainService.setDirection(TrainDirection.FORWARD));
+  }
+
+  setSpeed(newSpeed: number)
+  {
+    this.handleControllerStatusPromise(this.trainService.setSpeed(newSpeed));
+    this.sliderSpeed = newSpeed;
   }
 
   onSliderChange(event: MatSliderChange)
